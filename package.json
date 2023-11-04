@@ -1,0 +1,25 @@
+{
+  "name": "mergejsonfile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mergeP.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThienLK1/mergeJsonFile.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThienLK1/mergeJsonFile/issues"
+  },
+  "homepage": "https://github.com/ThienLK1/mergeJsonFile#readme",
+  "dependencies": {
+    "@fast-csv/format": "^4.3.5",
+    "csv-stringify": "^6.4.4",
+    "lodash": "^4.17.21",
+    "read-excel-file": "^5.7.1"
+  }
+}
