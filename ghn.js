@@ -3,6 +3,8 @@ let googleApi = require('./googleApi.js');
 let common = require('./common.js');
 // let createMetadata = require('./googleApi.js');
 var axios = require('axios');
+require('dotenv').config();
+
 const METADATA_ID = 8;
 const METADATA_KEY = 'LastestId';
 const SHEET_NAME = 'Demo';
@@ -26,7 +28,7 @@ const initData = async () => {
 const rs = async () => {
     const headers = {
         'Content-Type': 'application/json',
-        'Token': '36d9ffc9-4cc6-11ee-96dc-de6f804954c9'
+        'Token': process.env.TOKEN
     }
     const API = 'https://fe-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/search';
     const data = {
