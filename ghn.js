@@ -3,11 +3,16 @@ let googleApi = require('./googleApi.js');
 let common = require('./common.js');
 // let createMetadata = require('./googleApi.js');
 var axios = require('axios');
+// const moment = require('moment/moment.js');
+const { ToadScheduler, SimpleIntervalJob, Task } = require('toad-scheduler')
+
+const scheduler = new ToadScheduler()
+
 require('dotenv').config();
 
 const METADATA_ID = 8;
 const METADATA_KEY = 'LastestId';
-const SHEET_NAME = 'Demo';
+// const SHEET_NAME = 'Demo';
 const SPREAD_SHEET_ID = '1kO0LKRjzR7usYh7GHUWbRSAX_AVSu-_IG3uUeLX9zDE';
 const SHEET_ID = 664754172;
 // let todaySheetId = '';
@@ -20,12 +25,14 @@ const initData = async () => {
     console.log(rsCopy);
     const newSheetId = rsCopy.sheetId;
     await googleApi.renameSheet(SPREAD_SHEET_ID, newSheetId, today);
-    await googleApi.updateMetadata(SPREAD_SHEET_ID, SHEET_ID, 8, METADATA_KEY, "2");
+    await googleApi.updateMetadata(SPREAD_SHEET_ID, SHEET_ID, METADATA_ID, METADATA_KEY, "2");
     return newSheetId;
 }
 
 
 const rs = async () => {
+    var fromTime = Math.floor(new Date().getTime() / 1000);
+    console.log(fromTime);
     const headers = {
         'Content-Type': 'application/json',
         'Token': process.env.TOKEN
@@ -33,27 +40,27 @@ const rs = async () => {
     const API = 'https://fe-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/search';
     const data = {
         "shop_id": 4455891,
-        // "status": [
-        //     "ready_to_pick",
-        //     "picking",
-        //     "money_collect_picking"
-        // ],
         "status": [
-            "picked",
-            "sorting",
-            "storing",
-            "transporting",
-            "delivering",
-            "delivery_fail",
-            "money_collect_delivering"
+            "ready_to_pick",
+            "picking",
+            "money_collect_picking"
         ],
+        // "status": [
+        //     "picked",
+        //     "sorting",
+        //     "storing",
+        //     "transporting",
+        //     "delivering",
+        //     "delivery_fail",
+        //     "money_collect_delivering"
+        // ],
         "payment_type_id": [
             1,
             2,
             4,
             5
         ],
-        "from_time": 1699117200,
+        "from_time": fromTime,
         // "to_time": 1699117200,
         "offset": 0,
         "limit": 100,
@@ -107,7 +114,14 @@ const rs = async () => {
         console.log('lastestId after', lastestId)
     })
 };
-rs();
+
+const task = new Task('simple task', () => { rs() })
+const job = new SimpleIntervalJob({ seconds: 5, }, task)
+
+scheduler.addSimpleIntervalJob(job);
+
+// when stopping your app
+// scheduler.stop()
 // googleApi.checkSheet('Demo2')
 // googleApi.writeData([
 //     ['XXXXXsxzczxcss', 'Malexczxc', '240000', 'jsnvinidni'],

@@ -1,6 +1,5 @@
 node_modules/
 files/
-files-test/
-files_test/
 credentials.json
 token.json
+.env

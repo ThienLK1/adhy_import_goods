@@ -100,7 +100,7 @@ const createMetadata = async (spreadsheetId, sheetId, id, key, value) => {
     if (!sheets) {
         sheets = await getSheet();
     }
-    sheets.spreadsheets.batchUpdate(
+    await sheets.spreadsheets.batchUpdate(
         {
             spreadsheetId,
             requestBody: {
@@ -131,15 +131,16 @@ const createMetadata = async (spreadsheetId, sheetId, id, key, value) => {
                 );
             }
         }
-    )
+    );
+    return true;
 }
 
 const updateMetadata = async (spreadsheetId, sheetId, id, key, value) => {
-
+    console.log('updateMetadata', sheetId, id, key, value)
     if (!sheets) {
         sheets = await getSheet();
     }
-    sheets.spreadsheets.batchUpdate(
+    rs = await sheets.spreadsheets.batchUpdate(
         {
             spreadsheetId,
             requestBody: {
@@ -167,22 +168,14 @@ const updateMetadata = async (spreadsheetId, sheetId, id, key, value) => {
                     }
                 ]
             }
-        },
-        (err, result) => {
-            if (err) {
-                // Handle error
-                console.log(err);
-            } else {
-                console.log(
-                    result.data
-                );
-            }
         }
     )
+    console.log('updateMetadata', sheetId, id, key, value,'ok');
+    return rs;
 }
 
 const renameSheet = async (spreadsheetId, sheetId, title) => {
-    console.log('renameSheet');
+    console.log('renameSheet to ', title);
     if (!sheets) {
         sheets = await getSheet();
     }
