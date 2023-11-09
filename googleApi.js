@@ -209,7 +209,7 @@ const renameSheet = async (spreadsheetId, sheetId, title) => {
     )
 }
 
-const getMetadata = async (id) => {
+const getMetadata = async (spreadsheetId,metadataId) => {
     console.log('getMetadata');
     if (!sheets) {
         sheets = await getSheet();
@@ -217,8 +217,8 @@ const getMetadata = async (id) => {
     console.log('getMetadata get');
     const rs = await sheets.spreadsheets.developerMetadata.get(
         {
-            spreadsheetId: SPREAD_SHEET_ID,
-            metadataId: id
+            spreadsheetId,
+            metadataId
         }
     )
     return rs.data;
