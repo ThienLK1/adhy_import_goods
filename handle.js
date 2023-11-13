@@ -97,7 +97,7 @@ let year = date_ob.getFullYear();
 // prints date & time in YYYY-MM-DD format
 const now = year + "-" + month + "-" + date;
 console.log(now)
-const pathSKUPrice = `${__dirname}/in/sku_price.xlsx`;
+const pathSKUPrice = `${__dirname}/sku_price.xlsx`;
 const pathIn = `${__dirname}/in/${now}.xlsx`;
 const pathOut = `${__dirname}/out/${now}.csv`;
 let productMap = new Map();
@@ -144,15 +144,15 @@ const rs = async () => {
                 case "Bộ":
                     if (!row.isNewStyle) {
                         for (let key of Object.keys(row.size)) {
-                            let sku = `A_${row.product}_${key}`;
+                            let sku = `A_${row.product.toUpperCase()}_${key}`;
                             // console.log('print', sku, row.size[key], priceMap[sku])
                             count(sku, row.size[key]);
-                            let sku2 = `Q_${row.product}_${key}`;
+                            let sku2 = `Q_${row.product.toUpperCase()}_${key}`;
                             count(sku2, row.size[key]);
                         }
                     } else {
                         for (let key of Object.keys(row.size)) {
-                            let sku = `B_${row.product}_${key}`;
+                            let sku = `B_${row.product.toUpperCase()}_${key}`;
                             count(sku, row.size[key]);
                         }
 
@@ -160,7 +160,7 @@ const rs = async () => {
                     break;
                 case "Áo":
                     for (let key of Object.keys(row.size)) {
-                        let sku = `A_${row.product}_${key}`;
+                        let sku = `A_${row.product.toUpperCase()}_${key}`;
                         count(sku, row.size[key]);
                     }
                     break;

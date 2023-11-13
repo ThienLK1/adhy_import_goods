@@ -162,7 +162,7 @@ const rs = async () => {
 
 //     }
 // })
-// const job = new SimpleIntervalJob({ seconds: 30, }, task)
+// const job = new SimpleIntervalJob({ seconds: 3000, }, task)
 
 // scheduler.addSimpleIntervalJob(job);
 rs();
