@@ -128,8 +128,8 @@ const rs = async () => {
         let transformed = [];
         for (const row of rows) {
 
-            console.log(row);
-            if (row.product && row.size) {
+            console.log('row', row);
+            if (row.product) {
                 transformed.push(row)
             } else if (row.size) {
                 let newRow = JSON.parse(JSON.stringify(transformed[transformed.length - 1]));
@@ -140,32 +140,34 @@ const rs = async () => {
         }
         console.log(transformed);
         for (const row of transformed) {
-            switch (row.unit) {
-                case "Bộ":
-                    if (!row.isNewStyle) {
+            if (row.size) {
+                switch (row.unit) {
+                    case "Bộ":
+                        if (!row.isNewStyle) {
+                            for (let key of Object.keys(row.size)) {
+                                let sku = `A_${row.product.toUpperCase()}_${key}`;
+                                // console.log('print', sku, row.size[key], priceMap[sku])
+                                count(sku, row.size[key]);
+                                let sku2 = `Q_${row.product.toUpperCase()}_${key}`;
+                                count(sku2, row.size[key]);
+                            }
+                        } else {
+                            for (let key of Object.keys(row.size)) {
+                                let sku = `B_${row.product.toUpperCase()}_${key}`;
+                                count(sku, row.size[key]);
+                            }
+
+                        }
+                        break;
+                    case "Áo":
                         for (let key of Object.keys(row.size)) {
                             let sku = `A_${row.product.toUpperCase()}_${key}`;
-                            // console.log('print', sku, row.size[key], priceMap[sku])
-                            count(sku, row.size[key]);
-                            let sku2 = `Q_${row.product.toUpperCase()}_${key}`;
-                            count(sku2, row.size[key]);
-                        }
-                    } else {
-                        for (let key of Object.keys(row.size)) {
-                            let sku = `B_${row.product.toUpperCase()}_${key}`;
                             count(sku, row.size[key]);
                         }
-
-                    }
-                    break;
-                case "Áo":
-                    for (let key of Object.keys(row.size)) {
-                        let sku = `A_${row.product.toUpperCase()}_${key}`;
-                        count(sku, row.size[key]);
-                    }
-                    break;
-                default:
-                // code block
+                        break;
+                    default:
+                    // code block
+                }
             }
         }
     }).then(() => {
